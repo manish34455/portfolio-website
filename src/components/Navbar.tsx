@@ -22,6 +22,7 @@ const Navbar = () => {
 
     smoother.scrollTop(0);
     smoother.paused(true);
+    ScrollTrigger.refresh();
 
     let links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
@@ -31,7 +32,9 @@ const Navbar = () => {
           e.preventDefault();
           let elem = e.currentTarget as HTMLAnchorElement;
           let section = elem.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
+          if (section) {
+            smoother.scrollTo(section, true, "top top");
+          }
         }
       });
     });
@@ -43,14 +46,14 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          Logo
+          Manish Kumar
         </a>
         <a
-          href="mailto:example@mail.com"
+          href="mailto:mrkumar332355@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
         >
-          example@mail.com
+          mrkumar332355@gmail.com
         </a>
         <ul>
           <li>

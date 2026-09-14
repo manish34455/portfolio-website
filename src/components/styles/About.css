@@ -29,6 +29,18 @@
   line-height: 36px;
   letter-spacing: 1px;
 }
+.about-details {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+.about-details p {
+  color: #c8c8c8;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 27px;
+  letter-spacing: 0;
+}
 
 @media only screen and (min-width: 600px) {
   .about-section {
@@ -62,10 +74,18 @@
     font-size: 1.9vw;
     line-height: 2.3vw;
   }
+  .about-details p {
+    font-size: 1vw;
+    line-height: 1.55vw;
+  }
 }
 @media only screen and (min-width: 1950px) {
   .about-me p {
     font-size: 2.5rem;
     line-height: 2.7rem;
+  }
+  .about-details p {
+    font-size: 1.15rem;
+    line-height: 1.75rem;
   }
 }

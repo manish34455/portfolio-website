@@ -26,9 +26,30 @@ const textures = imageUrls.map((url) => textureLoader.load(url));
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
-const spheres = [...Array(30)].map(() => ({
-  scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
+// More spheres with bigger scale range for a fuller, more impressive animation
+const spheres = [...Array(40)].map(() => ({
+  scale: [0.9, 1.1, 1.2, 1.0, 1.3, 0.95][Math.floor(Math.random() * 6)],
 }));
+
+const stackGroups = [
+  {
+    title: "Backend",
+    items: "Python, Django, Django REST Framework, Celery, Redis, MySQL, PostgreSQL basics",
+  },
+  {
+    title: "Frontend",
+    items: "React, Vite, Tailwind CSS, TanStack Router, Angular",
+  },
+  {
+    title: "Integrations",
+    items:
+      "Twilio Voice, TeleCMI IVR, Meta WhatsApp Cloud API, TBO/Tek Travels, Leegality, Svatantr UTM, Brevo, Fast2SMS, SendGrid, VAPI.ai, DoubleTick",
+  },
+  {
+    title: "DevOps & Tooling",
+    items: "Git, GitHub Actions CI/CD, Render, WSL2, JWT/RBAC auth, Swagger/API docs",
+  },
+];
 
 type SphereProps = {
   vec?: THREE.Vector3;
@@ -129,28 +150,19 @@ const TechStack = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
+      const techEl = document.getElementById("techstack") || document.querySelector(".techstack");
+      if (!techEl) return;
+      const rect = techEl.getBoundingClientRect();
+      setIsActive(rect.top < window.innerHeight && rect.bottom > 0);
     };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
-    });
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   const materials = useMemo(() => {
     return textures.map(
       (texture) =>
@@ -167,13 +179,23 @@ const TechStack = () => {
   }, []);
 
   return (
-    <div className="techstack">
-      <h2> My Techstack</h2>
+    <div className="techstack" id="techstack">
+      <div className="techstack-copy">
+        <h2>My Techstack</h2>
+        <div className="stack-groups">
+          {stackGroups.map((group) => (
+            <div className="stack-group" key={group.title}>
+              <h3>{group.title}</h3>
+              <p>{group.items}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <Canvas
         shadows
         gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
+        camera={{ position: [0, 0, 12], fov: 52, near: 1, far: 100 }}
         onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
         className="tech-canvas"
       >
